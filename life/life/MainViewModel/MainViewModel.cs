@@ -95,21 +95,29 @@ namespace life.MainViewModel
             {
                 try
                 {
-                    selectedNode.isTaken = true;
-                    selectedNode.ColorBrush = Brushes.LimeGreen;
+                    var node = (Node)x;
+                    if (node.isTaken == false)
+                    {
+                        node.isTaken = true;
+                        node.ColorBrush = Brushes.LimeGreen;
+                    }
+                    else
+                    {
+                        node.isTaken = false;
+                        node.ColorBrush = Brushes.Blue;
+                    }
                 }
                 catch { }
             }
             );
             CommandStart = new RelayCommand(async b => {
-                Step = 0;
                 progress = true;
                 await StartGame();
                 });
             CommandStep = new RelayCommand(async b => {
-                Step = 0;
                 await Start();
             });
+            CommandPause = new RelayCommand(x => progress = false);
 
         }
 
@@ -125,63 +133,70 @@ namespace life.MainViewModel
 
         async Task<bool>  Start()
         {
-            bool change = CheckField();
-            if (change == true)
+            if (progress == true)
             {
-                int born = 0;
-                int alive = 0;
-                int dead = 0;
-
-                foreach (Node node in Field)
+                bool change = CheckField();
+                if (change == true)
                 {
-                    node.Born = false;
-                }
-                for (int y = 1; y < 9; y++)
-                    for (int x = 1; x < 10; x++)
-                    {
-                        var nodecheck = Field.First(node => node.X == x && node.Y == y);
-                        if (nodecheck.isTaken != true)
-                        {
-                            nodecheck.isTaken = CheckForNeighbors(nodecheck, 1);
-                            if (nodecheck.isTaken == true)
-                            {
-                                nodecheck.Born = true;
-                                nodecheck.ColorBrush = Brushes.LimeGreen;
-                                born++;
-                            }
-                        }
-                    }
-                for (int y = 1; y < 9; y++)
-                    for (int x = 1; x < 10; x++)
-                    {
-                        var nodecheck = Field.First(node => node.X == x && node.Y == y);
-                        if (nodecheck.isTaken == true && nodecheck.Born != true)
-                        {
-                            nodecheck.isTaken = CheckForNeighbors(nodecheck, 2);
-                            if (nodecheck.isTaken == false)
-                            {
-                                dead++;
-                                nodecheck.ColorBrush = Brushes.Blue;
-                            }
-                            else
-                                alive++;
-                        }
-                    }
+                    int born = 0;
+                    int alive = 0;
+                    int dead = 0;
 
-                Step++;
-                Born = born;
-                Alive = alive;
-                Dead = dead;
-                if (MaxBorn < Born) MaxBorn = Born;
-                if (MaxAlive < Alive) MaxAlive = Alive;
-                if (MaxDead < Dead) MaxDead = Dead;
-                return true;
+                    foreach (Node node in Field)
+                    {
+                        node.Born = false;
+                    }
+                    for (int y = 1; y < 9; y++)
+                        for (int x = 1; x < 10; x++)
+                        {
+                            var nodecheck = Field.First(node => node.X == x && node.Y == y);
+                            if (nodecheck.isTaken != true)
+                            {
+                                nodecheck.isTaken = CheckForNeighbors(nodecheck, 1);
+                                if (nodecheck.isTaken == true)
+                                {
+                                    nodecheck.Born = true;
+                                    nodecheck.ColorBrush = Brushes.LimeGreen;
+                                    born++;
+                                }
+                            }
+                        }
+                    await Task.Delay(100);
+                    for (int y = 1; y < 9; y++)
+                        for (int x = 1; x < 10; x++)
+                        {
+                            var nodecheck = Field.First(node => node.X == x && node.Y == y);
+                            if (nodecheck.isTaken == true && nodecheck.Born != true)
+                            {
+                                nodecheck.isTaken = CheckForNeighbors(nodecheck, 2);
+                                if (nodecheck.isTaken == false)
+                                {
+                                    dead++;
+                                    nodecheck.ColorBrush = Brushes.Blue;
+                                }
+                                else
+                                    alive++;
+                            }
+                        }
+
+                    Step++;
+                    Born = born;
+                    Alive = alive;
+                    Dead = dead;
+                    if (MaxBorn < Born) MaxBorn = Born;
+                    if (MaxAlive < Alive) MaxAlive = Alive;
+                    if (MaxDead < Dead) MaxDead = Dead;
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show($"Life freezed with no change at move# {Step}");
+                    Step = 0;
+                    return false;
+                }
             }
             else
-            {
-                MessageBox.Show($"Life freezed with no change at move# {Step}");
                 return false;
-            }
         }
 
         bool CheckField()
