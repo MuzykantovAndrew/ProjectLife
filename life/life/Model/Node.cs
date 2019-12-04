@@ -11,17 +11,14 @@ namespace life.Model
 {
     class Node: Notifier
     {
-        int neighborsMin = 2;
-        int neighborsMax = 3;
-        int neighborsBornNew = 3;
-        bool Changed = false;
         private Brush BlackBrush = Brushes.Black;
         private Brush LimeBrush = Brushes.LimeGreen;
         public int X { get; set; }
         public int Y { get; set; }
         Brush colorBrush;
         public Brush ColorBrush
-        { get=> colorBrush;
+        {
+            get => colorBrush;
             set
             {
                 colorBrush = value;
@@ -35,7 +32,7 @@ namespace life.Model
         public bool Born { get; set; } = false;
         public Node()
         {
-            ColorBrush = Brushes.Blue;
+            ColorBrush = Brushes.Black;
         }
     }
 }

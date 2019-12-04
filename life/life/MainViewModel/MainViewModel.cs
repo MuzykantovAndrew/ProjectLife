@@ -104,7 +104,7 @@ namespace life.MainViewModel
                     else
                     {
                         node.isTaken = false;
-                        node.ColorBrush = Brushes.Blue;
+                        node.ColorBrush = Brushes.Black;
                     }
                 }
                 catch { }
@@ -131,7 +131,7 @@ namespace life.MainViewModel
         }
 
 
-        async Task<bool>  Start()
+        async Task<bool> Start()
         {
             if (progress == true)
             {
@@ -161,7 +161,6 @@ namespace life.MainViewModel
                                 }
                             }
                         }
-                    await Task.Delay(100);
                     for (int y = 1; y < 9; y++)
                         for (int x = 1; x < 10; x++)
                         {
@@ -172,7 +171,7 @@ namespace life.MainViewModel
                                 if (nodecheck.isTaken == false)
                                 {
                                     dead++;
-                                    nodecheck.ColorBrush = Brushes.Blue;
+                                    nodecheck.ColorBrush = Brushes.Black;
                                 }
                                 else
                                     alive++;
@@ -203,12 +202,14 @@ namespace life.MainViewModel
         {
             int nonchangeNodeprev = 0;
             int nonchangeNodeprevprev = 0;
+            //сохранение предпередыдущего поля
             if (fieldprev != null)
                 foreach (var node in Field)
                     foreach (var nodeprev in fieldprev)
                         if (node.X == nodeprev.X && node.Y == nodeprev.Y)
                             if (node.isTaken == nodeprev.isTaken)
                                 nonchangeNodeprev++;
+            //сохранение предыдущего поля
             if (fieldprevprev != null)
                 foreach (var node in Field)
                     foreach (var nodeprev in fieldprev)

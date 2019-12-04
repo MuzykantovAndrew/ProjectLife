@@ -18,7 +18,7 @@
                         <StackPanel>
                             <StackPanel>
                                 <!--CommandParameter="{Binding RelativeSource={RelativeSource Self}}"-->
-                                <Button Background="{Binding ColorBrush}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=DataContext}" Command = "{Binding RelativeSource= {RelativeSource AncestorType=Window, Mode=FindAncestor}, Path= DataContext.CommandSetNode}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Height="25" />
+                                <Button RenderTransform="" Background="{Binding ColorBrush}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=DataContext}" Command = "{Binding RelativeSource= {RelativeSource AncestorType=Window, Mode=FindAncestor}, Path= DataContext.CommandSetNode}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Height="25" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -30,7 +30,6 @@
                 </ListBox.ItemsPanel>
             </ListBox>
 
-            <Button Content="Start" HorizontalAlignment="Left" Command="{Binding CommandStart}" />
             <StackPanel>
                 <StackPanel>
                     <Label>TotalSteps</Label>
@@ -69,8 +68,9 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <Button Content="Pause"  Command="{Binding CommandPause}"/>
-            <Button  Content="Step" Command="{Binding CommandStep}"  />
+            <Button  Content="AutoStart" Command="{Binding CommandStart}"/>
+            <Button Content="Pause" Command="{Binding CommandPause}"/>
+            <Button  Content="StepbyStep" Command="{Binding CommandStep}"/>
         </StackPanel>
     </Grid>
 
