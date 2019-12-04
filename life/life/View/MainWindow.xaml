@@ -1,0 +1,69 @@
+﻿<Window x:Class="life.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:life.MainViewModel"
+        mc:Ignorable="d"
+        Title="Game of Life" Height="500.724" Width="500" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.DataContext>
+        <local:MainViewModel></local:MainViewModel>
+    </Window.DataContext>
+    <Grid>
+        
+        <StackPanel>
+            <ListBox SelectedItem="{Binding SelectedNode}" ItemsSource="{Binding Field}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="120" Width="190">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <StackPanel>
+                                <!--CommandParameter="{Binding RelativeSource={RelativeSource Self}}"-->
+                                <Button Background="{Binding ColorBrush}"  Command = "{Binding RelativeSource= {RelativeSource AncestorType=Window, Mode=FindAncestor}, Path= DataContext.CommandSetNode}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="10" Height="10" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+           
+            <Button Content="Start" HorizontalAlignment="Left" Command="{Binding CommandStart}" />
+            <StackPanel Orientation="Horizontal">
+                <Label>TotalSteps</Label>
+                <Label Content="{Binding Step}"></Label>
+            </StackPanel>
+            <Label>At this step</Label>
+            <StackPanel Orientation="Horizontal">
+                <Label>Born</Label>
+                <Label Content="{Binding Born}"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Died</Label>
+                <Label Content="{Binding Dead}"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Alive</Label>
+                <Label Content="{Binding Alive}"></Label>
+            </StackPanel>
+            <Label>Maximum values</Label>
+            <StackPanel Orientation="Horizontal">
+                <Label>MaximumBorn</Label>
+                <Label Content="{Binding MaxBorn}"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>MaximumDied</Label>
+                <Label Content="{Binding MaxDead}"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>MaximumAlive</Label>
+                <Label Content="{Binding MaxAlive}"></Label>
+            </StackPanel>
+            <Button x:Name="Stop" Content="Stop"  />
+            <Button x:Name="Reset" Content="Step" Command="{Binding CommandStep}"  />
+        </StackPanel>
+    </Grid>
+
+</Window>
